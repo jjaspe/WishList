@@ -56,6 +56,12 @@ namespace WishList.Models
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
+        public User getLoggedUser()
+        {
+            String userName = HttpContext.Current.User.Identity.Name;
+            return this.People.SingleOrDefault(c => c.userName.Equals(userName));            
+        }
+
         public void KeepProduct(string productName)
         {
             HttpContext.Current.Session.Timeout = 20;

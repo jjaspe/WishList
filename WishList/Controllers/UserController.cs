@@ -18,7 +18,8 @@ namespace WishList.Controllers
 
         public ActionResult Index()
         {
-            return View(db.People.ToList());
+            User user=db.
+            return View(db.People.ToList().All();
         }
 
         //
