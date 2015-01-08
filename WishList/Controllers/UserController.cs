@@ -18,8 +18,9 @@ namespace WishList.Controllers
 
         public ActionResult Index()
         {
-            User user=db.
-            return View(db.People.ToList().All();
+            String userName=db.getLoggedUser();
+            User user=db.People.SingleOrDefault(c=>c.userName.Equals(userName));
+            return View(db.People.ToList().All(c=>!c.userName.Equals(userName)));
         }
 
         //

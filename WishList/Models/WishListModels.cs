@@ -56,10 +56,10 @@ namespace WishList.Models
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
-        public User getLoggedUser()
+        public String getLoggedUser()
         {
-            String userName = HttpContext.Current.User.Identity.Name;
-            return this.People.SingleOrDefault(c => c.userName.Equals(userName));            
+            return HttpContext.Current.User.Identity.Name;
+   
         }
 
         public void KeepProduct(string productName)
