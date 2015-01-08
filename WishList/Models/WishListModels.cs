@@ -46,7 +46,7 @@ namespace WishList.Models
 
         public DbSet<ProductLink> ProductLinks { get; set; }
 
-        public void SignIn(string userName, bool createPersistentCookie)
+        public void LogIn(string userName, bool createPersistentCookie)
         {
             int timeout = createPersistentCookie ? 24 * 60 : 30; //time in minutes for cookie, 1 day if persistent, 30 minutes if not
             var ticket = new FormsAuthenticationTicket(userName, createPersistentCookie, timeout);

@@ -17,6 +17,8 @@ namespace WishList.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+        private WishListDBContext db = new WishListDBContext();
+
         //
         // GET: /Account/Login
 
@@ -37,7 +39,9 @@ namespace WishList.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                return RedirectToLocal(returnUrl);
+                //Log user into wish list model for later use
+                db.LogIn(model.UserName, true);
+                return RedirectToAction("Index","User");
             }
 
             // If we got this far, something failed, redisplay form
@@ -81,7 +85,9 @@ namespace WishList.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    db.People.Add(new Models.User() { Name = model.UserName, userName = model.UserName });
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "User");
                 }
                 catch (MembershipCreateUserException e)
                 {
