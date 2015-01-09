@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WishList.Models.WishListItem>
+@{
+    ViewBag.Title = "Manage Wish List";
+}
+
+
+<h2>@ViewBag.WatchedUser.Name's wish list items</h2>
+
+@using (Html.BeginForm("ManageWishList", "User"))
+{
+    <input type="hidden" name="watchedUserId" value=@ViewBag.WatchedUser.Id />
+    
+    if (Model.Count() == 0)
+    {
+        <h3> List is empty</h3>
+    }
+    else
+    {
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                @if (ViewBag.LoggedUser.Id == ViewBag.WatchedUser.Id)
+                {
+                    <th>Items to Remove</th>
+                }
+                else
+                {
+                    <th>Items to Reserve</th>
+                }
+                <th>Links</th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.product.Name</td>
+                    <td>@item.product.Description</td>
+                    @if (ViewBag.LoggedUser.Id == ViewBag.WatchedUser.Id)
+                    {
+                        if (item.giver == null)
+                        {
+                            <td>Not Reserved</td>
+                        }
+                        else
+                        {
+                            <td>Reserved</td>
+                        }
+                        <td><input type="checkbox" name="removedItems" value="@item.Id" /></td>
+                    }
+                    else
+                    {
+                        if (item.giver == null)
+                        {
+                            <td>Not Reserved</td>
+                            <td colspan="20"><input type="checkbox" name="reservedItems" value="@item.Id" /></td>
+                        }
+                        else
+                        {
+                            <td>Reserved</td>
+                            <td colspan="20"><input type="checkbox" name="reservedItems" value="@item.Id" disabled="disabled" /></td>
+                        }
+                    }
+                    <td>
+                        
+                    </td>
+
+                </tr>
+            }
+        </table>
+    }
+    <br />
+    if (ViewBag.LoggedUser.Id == ViewBag.WatchedUser.Id)
+    {
+        <input type="hidden" name="reservedItems" value="" />
+        <input type="submit" name="action" value="Remove Selected" />
+    }
+    else
+    {
+        <input type="hidden" name="removedItems" value="" />
+        <input type="submit" name="action" value="Reserve Selected" />
+    }
+    <br />
+}
+<div>@Html.ActionLink("Back", "Index")</div>
