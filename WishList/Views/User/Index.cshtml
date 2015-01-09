@@ -10,7 +10,7 @@
     @Html.ActionLink("Manage Products", "Index", "Product",null,null)
 </div>
 <div>
-    @Html.ActionLink("Manage Wish List","ManageWishList", new { watchedUserId = ViewBag.User.Id }, null)
+    @Html.ActionLink("Manage Wish List","ManageWishList", new { watchedUserId = ViewBag.User.Id,showReservedBy=true }, null)
 </div>
 
 <table>

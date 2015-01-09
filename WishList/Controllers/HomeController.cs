@@ -13,6 +13,7 @@ namespace WishList.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             ViewBag.returnURL = "Index";
+            WishListDBContext.SynchronizeDatabases();
 
             return View();
         }

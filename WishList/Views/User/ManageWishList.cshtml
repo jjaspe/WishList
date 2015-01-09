@@ -88,7 +88,8 @@
 { 
     <h1> Items reserved for other users</h1>
     
-    if (ViewBag.ItemsReservedByUser==null || ViewBag.ItemsReservedByUser.Count() == 0)
+    
+    if (ViewBag.ItemsReservedByUser==null || (ViewBag.ItemsReservedByUser as  IEnumerable<WishList.Models.WishListItem>).Count() == 0)
     {
         <h3> List is empty</h3>
     }
@@ -102,7 +103,7 @@
                 <th>Links</th>
             </tr>
 
-            @foreach (var item in (ViewBag.ItemsReservedBy as IEnumerable<WishList.Models.WishListItem>))
+            @foreach (var item in (ViewBag.ItemsReservedByUser as IEnumerable<WishList.Models.WishListItem>))
             {
                 <tr>
                     <td>@item.product.Name</td>

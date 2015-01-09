@@ -11,21 +11,11 @@ namespace WishList.Models
 {
     public class WishListInitializer : System.Data.Entity.CreateDatabaseIfNotExists<WishListDBContext>
     {
+        
         protected override void Seed(WishListDBContext context)
         {
-            UsersContext userContext = new UsersContext();
 
             context.Database.Initialize(true);
-            //For all profiles in userContexts that dont have their usernames already in context,
-            //add them to context with name = userName. User can edit it later
-            foreach (UserProfile profile in userContext.UserProfiles)
-            {
-                User p = context.People.SingleOrDefault(n => n.userName.Equals(profile.UserName));
-
-                if (p == null)
-                    context.People.Add(new User() { Name = profile.UserName, userName = profile.UserName });
-            }
-            context.SaveChanges();
         }
     }
 
@@ -35,6 +25,21 @@ namespace WishList.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<WishListItem> Gifts { get; set; }
 
+        public static void SynchronizeDatabases()
+        {
+            UsersContext userContext = new UsersContext();
+            WishListDBContext wishListContext = new WishListDBContext();
+            //For all profiles in userContexts that dont have their usernames already in context,
+            //add them to context with name = userName. User can edit it later
+            foreach (UserProfile profile in userContext.UserProfiles)
+            {
+                User p = wishListContext.People.SingleOrDefault(n => n.userName.Equals(profile.UserName));
+
+                if (p == null)
+                    wishListContext.People.Add(new User() { Name = profile.UserName, userName = profile.UserName });
+            }
+            wishListContext.SaveChanges();
+        }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
