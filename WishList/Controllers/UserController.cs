@@ -18,7 +18,16 @@ namespace WishList.Controllers
 
         public ActionResult Index()
         {
-            return View(db.People.ToList());
+            User user = db.People.SingleOrDefault(c => c.userName.Equals(db.getLogInUserName()));
+            if (user != null)
+                return View(db.People.ToList().All(c => c.Id != user.Id));
+            else
+                return RedirectToAction("LoggedOut");
+        }
+
+        public ActionResult LoggedOut()
+        {
+            return View();
         }
 
         //
@@ -42,22 +51,6 @@ namespace WishList.Controllers
             return View();
         }
 
-        //
-        // POST: /User/Create
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.People.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(user);
-        }
 
         //
         // GET: /User/Edit/5
@@ -88,31 +81,7 @@ namespace WishList.Controllers
             return View(user);
         }
 
-        //
-        // GET: /User/Delete/5
-
-        public ActionResult Delete(int id = 0)
-        {
-            User user = db.People.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        //
-        // POST: /User/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            User user = db.People.Find(id);
-            db.People.Remove(user);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        
 
         protected override void Dispose(bool disposing)
         {
