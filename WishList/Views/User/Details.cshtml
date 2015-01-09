@@ -29,15 +29,9 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.gender)
     </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.userName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.userName)
-    </div>
+    
+    @Html.HiddenFor(model => model.userName)
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
