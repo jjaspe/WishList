@@ -183,6 +183,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LinksController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -315,6 +316,11 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Delete.cshtml" />
     <Content Include="Views\User\ManageWishList.cshtml" />
+    <Content Include="Views\Links\Index.cshtml" />
+    <Content Include="Views\Links\Details.cshtml" />
+    <Content Include="Views\Links\Create.cshtml" />
+    <Content Include="Views\Links\Edit.cshtml" />
+    <Content Include="Views\Links\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

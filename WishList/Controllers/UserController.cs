@@ -82,15 +82,15 @@ namespace WishList.Controllers
             return View(user);
         }
 
-        public ActionResult ManageWishList(int watchedUserId = 0)
+        public ActionResult ManageWishList(int watchedUserId = 0,bool showReservedBy=false)
         {
             User watchedUser = db.People.SingleOrDefault(c => c.Id == watchedUserId);
             ViewBag.LoggedUser = getLoggedUser();
             ViewBag.WatchedUser = watchedUser;
             if (watchedUser != null && ViewBag.LoggedUser!=null)
             {
-                //if (user.WishListItems == null)
-                //    user.WishListItems = new List<WishListItem>();
+                if (showReservedBy)
+                    ViewBag.ItemsReservedByUser = db.getItemsReservedBy(ViewBag.LoggedUser);
                 return View(watchedUser.WishListItems);
             }
 

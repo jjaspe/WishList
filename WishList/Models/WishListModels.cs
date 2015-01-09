@@ -72,6 +72,16 @@ namespace WishList.Models
             String name = HttpContext.Current.Session["Product"].ToString();
             return this.Products.SingleOrDefault(c => c.Name.Equals(name));
         }
+
+        /// <summary>
+        /// Returns all gifts where user is a the giver
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public IEnumerable<WishListItem> getItemsReservedBy(User user)
+        {
+            return this.Gifts.Where(c => c.giverID == user.Id);
+        }
     }
 
 
