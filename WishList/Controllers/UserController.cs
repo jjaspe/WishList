@@ -18,9 +18,10 @@ namespace WishList.Controllers
 
         public ActionResult Index()
         {
-            User user = db.People.SingleOrDefault(c => c.userName.Equals(db.getLogInUserName()));
+            String username = db.getLogInUserName();
+            User user = db.People.SingleOrDefault(c => c.userName.Equals(username));
             if (user != null)
-                return View(db.People.ToList().All(c => c.Id != user.Id));
+                return View(db.People.ToList().Where(c => c.Id != user.Id));
             else
                 return RedirectToAction("LoggedOut");
         }
