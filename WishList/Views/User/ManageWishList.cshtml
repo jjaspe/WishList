@@ -103,14 +103,13 @@
                 <th>Links</th>
             </tr>
 
-            @foreach (var item in (ViewBag.ItemsReservedByUser as IEnumerable<WishList.Models.WishListItem>))
+            @foreach (var listItem in (ViewBag.ItemsReservedByUser as IEnumerable<WishList.Models.WishListItem>))
             {
                 <tr>
-                    <td>@item.product.Name</td>
-                    <td>@item.product.Description</td> 
-                    <td>@item.giver.Name</td> 
+                    <td>@listItem.product.Name</td>
+                    <td>@listItem.product.Description</td> 
+                    <td>@listItem.receiver.Name</td> 
                     <td></td>
-
                 </tr>
             }
         </table>

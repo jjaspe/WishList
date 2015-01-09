@@ -19,6 +19,8 @@ namespace WishList.Controllers
             return db.People.SingleOrDefault(c => c.userName.Equals(name));
         }
 
+       
+
         //
         // GET: /User/
 

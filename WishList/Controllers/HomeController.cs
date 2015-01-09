@@ -9,12 +9,28 @@ namespace WishList.Controllers
 {
     public class HomeController : Controller
     {
+        WishListDBContext db = new WishListDBContext();
+
+        public void InitializeUsers()
+        {
+            UsersContext userContext = new UsersContext();
+            //For all profiles in userContexts that dont have their usernames already in context,
+            //add them to context with name = userName. User can edit it later
+            foreach (UserProfile profile in userContext.UserProfiles)
+            {
+                User p = db.People.SingleOrDefault(n => n.userName.Equals(profile.UserName));
+
+                if (p == null)
+                    db.People.Add(new User() { Name = profile.UserName, userName = profile.UserName });
+            }
+            db.SaveChanges();
+        }
+
         public ActionResult Index()
         {
+            InitializeUsers();
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
             ViewBag.returnURL = "Index";
-            WishListDBContext.SynchronizeDatabases();
-
             return View();
         }
 
@@ -35,7 +51,7 @@ namespace WishList.Controllers
         [ActionName("Profile")]
         public ActionResult UserProfile()
         {
-            WishListDBContext db = new WishListDBContext();
+            
             String username = db.getLogInUserName();
             if(!String.IsNullOrEmpty(username))
             {

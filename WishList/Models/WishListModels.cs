@@ -14,32 +14,19 @@ namespace WishList.Models
         
         protected override void Seed(WishListDBContext context)
         {
-
             context.Database.Initialize(true);
         }
     }
 
     public class WishListDBContext : DbContext
     {
+ 
         public DbSet<User> People { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WishListItem> Gifts { get; set; }
 
-        public static void SynchronizeDatabases()
-        {
-            UsersContext userContext = new UsersContext();
-            WishListDBContext wishListContext = new WishListDBContext();
-            //For all profiles in userContexts that dont have their usernames already in context,
-            //add them to context with name = userName. User can edit it later
-            foreach (UserProfile profile in userContext.UserProfiles)
-            {
-                User p = wishListContext.People.SingleOrDefault(n => n.userName.Equals(profile.UserName));
+        
 
-                if (p == null)
-                    wishListContext.People.Add(new User() { Name = profile.UserName, userName = profile.UserName });
-            }
-            wishListContext.SaveChanges();
-        }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -79,13 +66,16 @@ namespace WishList.Models
         }
 
         /// <summary>
-        /// Returns all gifts where user is a the giver
+        /// Returns all gifts where user is a the giver, using eager loading
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         public IEnumerable<WishListItem> getItemsReservedBy(User user)
         {
-            return this.Gifts.Where(c => c.giverID == user.Id);
+            return this.Gifts.Where(c => c.giverID == user.Id)
+                .Include(c => c.product)
+                .Include(c => c.giver)
+                .Include(c => c.receiver);
         }
     }
 
