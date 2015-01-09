@@ -13,13 +13,18 @@ namespace WishList.Controllers
     {
         private WishListDBContext db = new WishListDBContext();
 
+        User getLoggedUser()
+        {
+            String name = db.getLogInUserName();
+            return db.People.SingleOrDefault(c => c.userName.Equals(name));
+        }
+
         //
         // GET: /User/
 
         public ActionResult Index()
         {
-            String username = db.getLogInUserName();
-            User user = db.People.SingleOrDefault(c => c.userName.Equals(username));
+            User user = getLoggedUser();
             if (user != null)
             {
                 ViewBag.User = user;
@@ -79,12 +84,10 @@ namespace WishList.Controllers
 
         public ActionResult ManageWishList(int watchedUserId = 0)
         {
-            String username = db.getLogInUserName();
-            User loggedUser = db.People.SingleOrDefault(c => c.userName.Equals(username)),
-                watchedUser = db.People.SingleOrDefault(c => c.Id == watchedUserId);
-            ViewBag.LoggedUser = loggedUser;
+            User watchedUser = db.People.SingleOrDefault(c => c.Id == watchedUserId);
+            ViewBag.LoggedUser = getLoggedUser();
             ViewBag.WatchedUser = watchedUser;
-            if (watchedUser != null)
+            if (watchedUser != null && ViewBag.LoggedUser!=null)
             {
                 //if (user.WishListItems == null)
                 //    user.WishListItems = new List<WishListItem>();
@@ -115,8 +118,8 @@ namespace WishList.Controllers
         {
             WishListItem current;
             int itemId;
-            String username = db.getLogInUserName();
-            User loggedUser = db.People.SingleOrDefault(c => c.userName==username),
+            
+            User loggedUser = getLoggedUser(),
                 watchedUser = db.People.SingleOrDefault(c => c.Id == watchedUserId);
 
 
@@ -160,6 +163,29 @@ namespace WishList.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult AddProductsToList(string[] productsToAdd)
+        {
+            Product product;
+            User user = getLoggedUser();
+            if (productsToAdd != null && user!=null)
+            {
+                foreach (string i in productsToAdd)
+                {
+                    product = db.Products.First(n => n.Name.Equals(i));
+                    WishListItem t = new WishListItem() { receiver = user, product = product, giver = null, giverID = null };
+                    //user.wishListItems.Add(t);
+                    db.Gifts.Add(t);
+                    db.SaveChanges();
+                    RedirectToAction("Index");
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();

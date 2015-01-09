@@ -114,6 +114,19 @@ namespace WishList.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult ManageLinks(int productId)
+        {
+            Product Product = db.Products.SingleOrDefault(c => c.Id == productId);
+            if (Product != null)
+            {
+                db.KeepProduct(Product.Name);
+                //return RedirectToAction("Index", "Links");
+                return RedirectToAction("Index");
+            }
+            else
+                throw new Exception("Product AddLinks");
+        }
+
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
