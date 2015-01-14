@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Links for @ViewBag.product.Name</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -29,7 +29,7 @@
             @Html.DisplayFor(modelItem => item.Store)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.URL)
+            <a href="@item.URL">@item.URL</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)
@@ -43,4 +43,4 @@
 }
 
 </table>
-@Html.ActionLink("Back to Products", "Index", "Product", null, null);
+@Html.ActionLink("Back to Products", "Index", "Product", null, null)

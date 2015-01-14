@@ -13,12 +13,35 @@ namespace WishList.Controllers
     {
         private WishListDBContext db = new WishListDBContext();
 
+        ProductLink fixURL(ProductLink productlink)
+        {
+            //Prepend http://www if not there
+            if (!productlink.URL.StartsWith("https://"))
+            {
+                if (!productlink.URL.StartsWith("www."))
+                    productlink.URL = "www." + productlink.URL;
+
+                productlink.URL = "http://" + productlink.URL;
+            }
+            //Append .com if not there
+            if (!productlink.URL.EndsWith(".com"))
+                productlink.URL = productlink.URL + ".com";
+            return productlink;
+        }
+
+        ProductLink fixPrice(ProductLink productlink)
+        {
+            productlink.Price = productlink.Price ?? 0.0;//Make price 0 if null
+            return productlink;
+        }
+
         //
         // GET: /Links/
 
         public ActionResult Index()
         {
             Product product = db.getKeptProduct();
+            ViewBag.product = product;
             return View(product.Links.ToList());
         }
 
@@ -50,9 +73,14 @@ namespace WishList.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductLink productlink)
         {
+            Product product = db.getKeptProduct();
+            if (product == null)
+                return View(productlink);
+
             if (ModelState.IsValid)
             {
-                db.ProductLinks.Add(productlink);
+                product.Links.Add(this.fixPrice(this.fixURL(productlink)));
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -82,6 +110,7 @@ namespace WishList.Controllers
         {
             if (ModelState.IsValid)
             {
+                this.fixPrice(this.fixURL(productlink));
                 db.Entry(productlink).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
