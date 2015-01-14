@@ -16,20 +16,19 @@
     }
     else
     {
-        <table>
+        <table class="wish_list_table">
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
                 @if (ViewBag.LoggedUser.Id == ViewBag.WatchedUser.Id)
                 {
-                    <th>Items to Remove</th>
+                    <th class="long_header">Items to Remove</th>
                 }
                 else
                 {
-                    <th>Items to Reserve</th>
+                    <th class="long_header">Items to Reserve</th>
                 }
-                <th>Links</th>
             </tr>
 
             @foreach (var item in Model)
@@ -47,23 +46,24 @@
                         {
                             <td>Reserved</td>
                         }
-                        <td><input type="checkbox" name="removedItems" value="@item.Id" /></td>
+                        <td class="checkbox"><input type="checkbox" name="removedItems" value="@item.Id" /></td>
                     }
                     else
                     {
                         if (item.giver == null)
                         {
                             <td>Not Reserved</td>
-                            <td colspan="20"><input type="checkbox" name="reservedItems" value="@item.Id" /></td>
+                            <td colspan="20" class="checkbox"><input type="checkbox" name="reservedItems" value="@item.Id" /></td>
                         }
                         else
                         {
                             <td>Reserved</td>
-                            <td colspan="20"><input type="checkbox" name="reservedItems" value="@item.Id" disabled="disabled" /></td>
+                            <td colspan="20" class="checkbox"><input type="checkbox" name="reservedItems" value="@item.Id" disabled="disabled" /></td>
                         }
                     }
-                    <td>
-                        
+                    <td class="link_td">
+                        @Html.ActionLink("See Links", "Links", 
+                        new { productName = item.product.Name,watchedUserId=@ViewBag.WatchedUser.Id ,showReservedBy=true })
                     </td>
 
                 </tr>
@@ -73,7 +73,7 @@
     <br />
     if (ViewBag.LoggedUser.Id == ViewBag.WatchedUser.Id)
     {
-        <input type="hidden" name="reservedItems" value="" />
+        <input  type="hidden" name="reservedItems" value="" />
         <input type="submit" name="action" value="Remove Selected" />
     }
     else
@@ -95,12 +95,11 @@
     }
     else
     {
-        <table>
+        <table class="wish_list_table">
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Gift Receiver</th>          
-                <th>Links</th>
+                <th>Gift Receiver</th>  
             </tr>
 
             @foreach (var listItem in (ViewBag.ItemsReservedByUser as IEnumerable<WishList.Models.WishListItem>))
@@ -109,7 +108,10 @@
                     <td>@listItem.product.Name</td>
                     <td>@listItem.product.Description</td> 
                     <td>@listItem.receiver.Name</td> 
-                    <td></td>
+                    <td class="link_td">
+                        @Html.ActionLink("See Links", "Links",
+                        new { productName = listItem.product.Name, watchedUserId = @ViewBag.WatchedUser.Id, showReservedBy = true })
+                    </td>
                 </tr>
             }
         </table>

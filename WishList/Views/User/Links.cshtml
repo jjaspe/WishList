@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WishList.Models.ProductLink>
+
+
+<h2>Links for @ViewBag.product.Name</h2>
+
+@Html.Partial("LinksTable", Model)
+
+<br />
+<br />
+@Html.ActionLink("Back to Wish List", "ManageWishList", "User", 
+new { watchedUserId = @ViewBag.WatchedUserId, showReservedBy = @ViewBag.ShowReservedBy }, null)
+
+

@@ -187,6 +187,22 @@ namespace WishList.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Links(string productName,int watchedUserId,bool showReservedBy=false)
+        {
+            User watchedUser=db.People.SingleOrDefault(c=>c.Id==watchedUserId);
+            db.KeepProduct(productName);
+            Product product=db.getKeptProduct();
+
+            if(watchedUser==null || product==null)
+                return RedirectToAction("Index");
+            else
+            {
+                ViewBag.product = product;
+                ViewBag.WatchedUserId = watchedUserId;
+                ViewBag.ShowReservedBy = showReservedBy;
+                return View(product.Links);            
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {
