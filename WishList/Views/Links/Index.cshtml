@@ -29,7 +29,7 @@
             @Html.DisplayFor(modelItem => item.Store)
         </td>
         <td>
-            <a href="@item.URL">@item.URL</a>
+            <a href="@item.URL" target="_blank">@item.URL</a>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Price)
@@ -43,4 +43,6 @@
 }
 
 </table>
+<br />
+<br />
 @Html.ActionLink("Back to Products", "Index", "Product", null, null)

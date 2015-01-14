@@ -16,16 +16,14 @@ namespace WishList.Controllers
         ProductLink fixURL(ProductLink productlink)
         {
             //Prepend http://www if not there
-            if (!productlink.URL.StartsWith("https://"))
+            if (!productlink.URL.StartsWith("https://") && !productlink.URL.StartsWith("http://"))
             {
                 if (!productlink.URL.StartsWith("www."))
                     productlink.URL = "www." + productlink.URL;
 
                 productlink.URL = "http://" + productlink.URL;
             }
-            //Append .com if not there
-            if (!productlink.URL.EndsWith(".com"))
-                productlink.URL = productlink.URL + ".com";
+
             return productlink;
         }
 
