@@ -13,7 +13,7 @@
             @Html.DisplayNameFor(model => model.URL)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Price) (in $)
         </th>
         <th></th>
     </tr>
@@ -31,10 +31,9 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
+                @Html.ActionLink("Edit", "Edit", "Links", new { id = item.Id }, null) |
+                @Html.ActionLink("Details", "Details", "Links", new { id = item.Id }, null) |
+                @Html.ActionLink("Delete", "Delete", "Links", new { id = item.Id }, null)
         </tr>
     }
 
