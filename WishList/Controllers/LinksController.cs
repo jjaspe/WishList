@@ -18,7 +18,8 @@ namespace WishList.Controllers
 
         public ActionResult Index()
         {
-            return View(db.ProductLinks.ToList());
+            Product product = db.getKeptProduct();
+            return View(product.Links.ToList());
         }
 
         //

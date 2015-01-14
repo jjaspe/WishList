@@ -14,18 +14,15 @@ namespace WishList.Models
         
         protected override void Seed(WishListDBContext context)
         {
-            context.Database.Initialize(true);
+            context.Database.Initialize(false);
         }
     }
 
     public class WishListDBContext : DbContext
-    {
- 
+    { 
         public DbSet<User> People { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<WishListItem> Gifts { get; set; }
-
-        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

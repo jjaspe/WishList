@@ -120,8 +120,7 @@ namespace WishList.Controllers
             if (Product != null)
             {
                 db.KeepProduct(Product.Name);
-                //return RedirectToAction("Index", "Links");
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Links");
             }
             else
                 throw new Exception("Product AddLinks");

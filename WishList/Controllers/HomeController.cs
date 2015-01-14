@@ -14,8 +14,8 @@ namespace WishList.Controllers
         public void InitializeUsers()
         {
             UsersContext userContext = new UsersContext();
-            //For all profiles in userContexts that dont have their usernames already in context,
-            //add them to context with name = userName. User can edit it later
+            //For all profiles in userContexts that dont have their usernames already in WishListContext,
+            //add them to context with name = userName. User can edit it later.
             foreach (UserProfile profile in userContext.UserProfiles)
             {
                 User p = db.People.SingleOrDefault(n => n.userName.Equals(profile.UserName));
