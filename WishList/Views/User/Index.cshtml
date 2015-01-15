@@ -7,10 +7,10 @@
 <h2>Registered Users</h2>
 
 <div>
-    @Html.ActionLink("Manage Products", "Index", "Product",null,null)
+    @Html.ActionLink("Add and Reserve Products", "Index", "Product",null,null)
 </div>
 <div>
-    @Html.ActionLink("Manage Wish List","ManageWishList", new { watchedUserId = ViewBag.User.Id,showReservedBy=true }, null)
+    @Html.ActionLink("Check Wish List","ManageWishList", new { watchedUserId = ViewBag.User.Id,showReservedBy=true }, null)
 </div>
 
 <table class="table table-striped table-bordered table-condensed">
