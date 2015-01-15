@@ -6,9 +6,31 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Security;
+using System.Data;
 
 namespace WishList.Models
 {
+    public interface IWishListDBContext:IDisposable
+    {
+        IQueryable<T> Query<T>() where T :class;
+        void Add<T>(T item) where T : class;
+        void Update<T>(T item) where T : class;
+        void Remove<T>(T item) where T : class;
+        void SaveChanges();
+        IDBEntry Entry(object item);
+    }
+
+    public interface IDBEntry
+    {
+        EntityState State { get; set; }
+        object Item { get; set; }
+    }
+
+    public interface IIdeable
+    {
+        double id { get; set; }
+    }
+
     public class WishListInitializer : System.Data.Entity.CreateDatabaseIfNotExists<WishListDBContext>
     {
         
@@ -18,7 +40,7 @@ namespace WishList.Models
         }
     }
 
-    public class WishListDBContext : DbContext
+    public class WishListDBContext : DbContext,IWishListDBContext
     { 
         public DbSet<User> People { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -73,6 +95,36 @@ namespace WishList.Models
                 .Include(c => c.product)
                 .Include(c => c.giver)
                 .Include(c => c.receiver);
+        }
+
+        public IQueryable<T> Query<T>() where T : class
+        {
+            return Set<T>();
+        }
+
+        public void Add<T>(T item) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update<T>(T item) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove<T>(T item) where T : class
+        {
+            throw new NotImplementedException();
+        }
+
+        public new void SaveChanges()
+        {
+            (this as DbContext).SaveChanges();
+        }
+
+        public new IDBEntry Entry(object item)
+        {
+            throw new NotImplementedException();
         }
     }
 
